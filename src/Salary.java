@@ -76,7 +76,7 @@ class Commission extends Salary {
 
     @Override
     public String toString() {
-        return "Commission: " + grossSales + " at " + commissionRate + ", Total: " + getAmount();
+        return "Commission:  Gross sales" + grossSales + " at  Commission rate" + commissionRate + ", Total: " + getAmount();
     }
 }
 
@@ -99,7 +99,7 @@ class BasePlusCommission extends Salary {
 
     @Override
     public String toString() {
-        return "Base Plus Commission: " + baseSalary + " + " + grossSales + " at " + commissionRate + ", Total: " + getAmount();
+        return "Base Plus Commission: "+ "  Base salary: "+ baseSalary + " +  Gross sales: " + grossSales + " at  Commission rate: " + commissionRate + ", Total: " + getAmount();
     }
 }
 
