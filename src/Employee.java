@@ -1,5 +1,7 @@
-import java.io.Serializable;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Employee implements Serializable {
     private String firstName;
@@ -35,38 +37,8 @@ public class Employee implements Serializable {
         salaries.add(salary);
     }
 
-    public ArrayList<Salary> getPaymentHistory(int id) {
+    public ArrayList<Salary> getPaymentHistory() {
         return salaries;
-    }
-
-    // Static field to hold all employees
-    private static ArrayList<Employee> employees = new ArrayList<>();
-
-    // Static method to add an employee to the list
-    public static void addEmployee(Employee employee) {
-        employees.add(employee);
-    }
-
-    public static Employee findById(int id) {
-        for (Employee employee : employees) {
-            if (employee.getId() == id) {
-                return employee;
-            }
-        }
-        return null;
-    }
-
-    public static ArrayList<Employee> searchBySalaryType(Class<? extends Salary> salaryType) {
-        ArrayList<Employee> result = new ArrayList<>();
-        for (Employee employee : employees) {
-            for (Salary salary : employee.getPaymentHistory(employee.getId())) {
-                if (salaryType.isInstance(salary)) {
-                    result.add(employee);
-                    break;
-                }
-            }
-        }
-        return result;
     }
 
     public double calculateEarnings() {
@@ -76,15 +48,6 @@ public class Employee implements Serializable {
         }
         return totalEarnings;
     }
-
-    public static void archiveEmployee(int id) {
-        Employee employee = findById(id);
-        if (employee != null) {
-            employee.isArchived = true;
-        }
-    }
-
-    // Getters and setters for all attributes...
 
     public int getId() {
         return id;
@@ -100,6 +63,62 @@ public class Employee implements Serializable {
 
     public boolean isManager() {
         return isManager;
+    }
+
+    public static Employee findById(int id, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                return employee;
+            }
+        }
+        return null;
+    }
+
+    public static ArrayList<Employee> searchBySalaryType(Class<? extends Salary> salaryType, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        ArrayList<Employee> result = new ArrayList<>();
+        for (Employee employee : employees) {
+            for (Salary salary : employee.getPaymentHistory()) {
+                if (salaryType.isInstance(salary)) {
+                    result.add(employee);
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    public static void archiveEmployee(int id, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                employee.isArchived = true;
+                writeEmployeesToFile(employees, filename);
+                break;
+            }
+        }
+    }
+
+    private static Set<Employee> readEmployeesFromFile(String filename) {
+        Set<Employee> employees = new HashSet<>();
+        File file = new File(filename);
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+                employees = (Set<Employee>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return employees;
+    }
+
+    private static void writeEmployeesToFile(Set<Employee> employees, String filename) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(employees);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

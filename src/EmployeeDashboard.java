@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class EmployeeDashboard {
     private Employee employee;
+    private static final String FILENAME = "Employees.dat";
 
     public EmployeeDashboard(Employee employee) {
         this.employee = employee;
@@ -28,7 +29,7 @@ public class EmployeeDashboard {
                     break;
                 case 2:
                     System.out.println("Payment history:");
-                    for (Salary salary : employee.getPaymentHistory(employee.getId())) {
+                    for (Salary salary : employee.getPaymentHistory()) {
                         System.out.println(salary);
                     }
                     break;
@@ -51,7 +52,7 @@ public class EmployeeDashboard {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID: ");
         int id = scanner.nextInt();
-        Employee foundEmployee = Employee.findById(id);
+        Employee foundEmployee = Employee.findById(id, FILENAME);
         if (foundEmployee != null) {
             System.out.println("User found: " + foundEmployee);
         } else {
@@ -82,7 +83,7 @@ public class EmployeeDashboard {
                 return;
         }
 
-        ArrayList<Employee> result = Employee.searchBySalaryType(salaryType);
+        ArrayList<Employee> result = Employee.searchBySalaryType(salaryType, FILENAME);
         if (result.isEmpty()) {
             System.out.println("No employees found with the specified salary type.");
         } else {
