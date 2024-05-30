@@ -8,7 +8,7 @@ public class Main {
         SignUp signUp = new SignUp(); // Creating an instance of SignUp
         Login login = new Login(); // Creating an instance of Login
 
-        while (choice != 3) {
+        do {
             System.out.println("1. Login");
             System.out.println("2. Sign Up");
             System.out.println("3. Exit");
@@ -28,7 +28,7 @@ public class Main {
                 default:
                     System.out.println("Invalid choice");
             }
-        }
+        }while (choice != 3);
 
         scanner.close();
     }

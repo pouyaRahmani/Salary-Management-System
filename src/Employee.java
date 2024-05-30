@@ -39,13 +39,34 @@ public class Employee implements Serializable {
         return salaries;
     }
 
-    public static Employee findById(ArrayList<Employee> employees, int id) {
+    // Static field to hold all employees
+    private static ArrayList<Employee> employees = new ArrayList<>();
+
+    // Static method to add an employee to the list
+    public static void addEmployee(Employee employee) {
+        employees.add(employee);
+    }
+
+    public static Employee findById(int id) {
         for (Employee employee : employees) {
             if (employee.getId() == id) {
                 return employee;
             }
         }
         return null;
+    }
+
+    public static ArrayList<Employee> searchBySalaryType(Class<? extends Salary> salaryType) {
+        ArrayList<Employee> result = new ArrayList<>();
+        for (Employee employee : employees) {
+            for (Salary salary : employee.getPaymentHistory(employee.getId())) {
+                if (salaryType.isInstance(salary)) {
+                    result.add(employee);
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     public double calculateEarnings() {
@@ -56,20 +77,29 @@ public class Employee implements Serializable {
         return totalEarnings;
     }
 
+    public static void archiveEmployee(int id) {
+        Employee employee = findById(id);
+        if (employee != null) {
+            employee.isArchived = true;
+        }
+    }
+
     // Getters and setters for all attributes...
 
     public int getId() {
         return id;
     }
 
-    // getter username
     public String getUserName() {
         return userName;
     }
 
-    // getter password
     public String getPassword() {
         return password;
+    }
+
+    public boolean isManager() {
+        return isManager;
     }
 
     @Override
@@ -85,5 +115,3 @@ public class Employee implements Serializable {
                 '}';
     }
 }
-
-

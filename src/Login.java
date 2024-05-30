@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -20,8 +19,15 @@ public class Login {
         if (employee != null) {
             System.out.println("Logged in successfully:");
             System.out.println(employee);
-            System.out.println("Total earnings: " + employee.calculateEarnings());
-            showMenu(employee);
+
+            if (employee.isManager()) {
+                ManagerDashboard managerDashboard = new ManagerDashboard(employee);
+                managerDashboard.showMenu();
+            } else {
+                EmployeeDashboard employeeDashboard = new EmployeeDashboard(employee);
+                employeeDashboard.showMenu();
+            }
+
         } else {
             System.out.println("Invalid username or password. Please try again.");
         }
@@ -51,36 +57,5 @@ public class Login {
         }
 
         return employees;
-    }
-
-    private void showMenu(Employee employee) {
-        Scanner scanner = new Scanner(System.in);
-        int choice;
-
-        do {
-            System.out.println("\nMenu:");
-            System.out.println("1. View total earnings");
-            System.out.println("2. View payment history");
-            System.out.println("3. Log out");
-            System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
-
-            switch (choice) {
-                case 1:
-                    System.out.println("Total earnings: " + employee.calculateEarnings());
-                    break;
-                case 2:
-                    System.out.println("Payment history:");
-                    for (Salary salary : employee.getPaymentHistory(employee.getId())) {
-                        System.out.println(salary);
-                    }
-                    break;
-                case 3:
-                    System.out.println("Logging out...");
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-        } while (choice != 3);
     }
 }
