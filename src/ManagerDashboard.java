@@ -20,7 +20,8 @@ public class ManagerDashboard {
             System.out.println("3. Search user by ID");
             System.out.println("4. Search user by Salary Type");
             System.out.println("5. Archive user");
-            System.out.println("6. Log out");
+            System.out.println("6. Change salary");
+            System.out.println("7. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -44,12 +45,15 @@ public class ManagerDashboard {
                     archiveUser();
                     break;
                 case 6:
+                    changeSalary();
+                    break;
+                case 7:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 6);
+        } while (choice != 7);
     }
 
     private void searchUserById() {
@@ -104,5 +108,65 @@ public class ManagerDashboard {
         int id = scanner.nextInt();
         Employee.archiveEmployee(id, FILENAME);
         System.out.println("User archived.");
+    }
+
+    private void changeSalary() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter user ID: ");
+        int id = scanner.nextInt();
+        Employee foundEmployee = Employee.findById(id, FILENAME);
+        if (foundEmployee == null) {
+            System.out.println("User not found.");
+            return;
+        }
+
+        System.out.print("Enter salary type (1: Fixed, 2: Hourly, 3: Commission, 4: Base Plus Commission): ");
+        int salaryTypeChoice = scanner.nextInt();
+        Salary newSalary = null;
+
+        System.out.print("Enter start date (yyyy-mm-dd): ");
+        String startDateStr = scanner.next();
+        Date startDate = Date.valueOf(startDateStr);
+
+        System.out.print("Enter end date (yyyy-mm-dd): ");
+        String endDateStr = scanner.next();
+        Date endDate = Date.valueOf(endDateStr);
+
+        switch (salaryTypeChoice) {
+            case 1:
+                System.out.print("Enter monthly salary: ");
+                double monthlySalary = scanner.nextDouble();
+                newSalary = new Fixed(startDate, endDate, true, foundEmployee, monthlySalary);
+                break;
+            case 2:
+                System.out.print("Enter hourly wage: ");
+                double hourlyWage = scanner.nextDouble();
+                System.out.print("Enter hours worked: ");
+                double hoursWorked = scanner.nextDouble();
+                newSalary = new HourlyWage(startDate, endDate, true, foundEmployee, hourlyWage, hoursWorked);
+                break;
+            case 3:
+                System.out.print("Enter gross sales: ");
+                double grossSales = scanner.nextDouble();
+                System.out.print("Enter commission rate: ");
+                double commissionRate = scanner.nextDouble();
+                newSalary = new Commission(startDate, endDate, true, foundEmployee, grossSales, commissionRate);
+                break;
+            case 4:
+                System.out.print("Enter base salary: ");
+                double baseSalary = scanner.nextDouble();
+                System.out.print("Enter gross sales: ");
+                grossSales = scanner.nextDouble();
+                System.out.print("Enter commission rate: ");
+                commissionRate = scanner.nextDouble();
+                newSalary = new BasePlusCommission(startDate, endDate, true, foundEmployee, baseSalary, grossSales, commissionRate);
+                break;
+            default:
+                System.out.println("Invalid salary type. Please try again.");
+                return;
+        }
+
+        Employee.changeSalary(id, newSalary, FILENAME);
+        System.out.println("Salary updated for user ID " + id);
     }
 }

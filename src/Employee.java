@@ -100,6 +100,21 @@ public class Employee implements Serializable {
         }
     }
 
+    public static void changeSalary(int id, Salary newSalary, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                for (Salary salary : employee.getPaymentHistory()) {
+                    salary.activeSalary = false;
+                }
+                newSalary.activeSalary = true;
+                employee.addSalary(newSalary);
+                writeEmployeesToFile(employees, filename);
+                break;
+            }
+        }
+    }
+
     private static Set<Employee> readEmployeesFromFile(String filename) {
         Set<Employee> employees = new HashSet<>();
         File file = new File(filename);
@@ -131,6 +146,8 @@ public class Employee implements Serializable {
                 ", departmentId=" + departmentId +
                 ", isManager=" + isManager +
                 ", status=" + status +
+                ", salaries=" + salaries +
+                ", isArchived=" + isArchived +
                 '}';
     }
 }
