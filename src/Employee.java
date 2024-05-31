@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 public class Employee implements Serializable {
@@ -41,12 +42,18 @@ public class Employee implements Serializable {
         return salaries;
     }
 
-    public double calculateEarnings() {
-        double totalEarnings = 0;
-        for (Salary salary : salaries) {
-            totalEarnings += salary.getAmount();
+  public static double calculateEarnings(int id, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                double totalEarnings = 0;
+                for (Salary salary : employee.getPaymentHistory()) {
+                    totalEarnings += salary.getAmount();
+                }
+                return totalEarnings;
+            }
         }
-        return totalEarnings;
+        return 0;
     }
 
     public int getId() {
@@ -63,6 +70,14 @@ public class Employee implements Serializable {
 
     public boolean isManager() {
         return isManager;
+    }
+
+    public boolean isArchived() {
+        return isArchived;
+    }
+
+    public Activity getStatus() {
+        return status;
     }
 
     public static Employee findById(int id, String filename) {
@@ -89,12 +104,43 @@ public class Employee implements Serializable {
         return result;
     }
 
+    // Archive employee with given id and set status based on user input
     public static void archiveEmployee(int id, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
+        Scanner scanner = new Scanner(System.in);
+
         for (Employee employee : employees) {
             if (employee.getId() == id) {
+                employee.toString();
                 employee.isArchived = true;
+
+                System.out.println("Select reason for archiving:");
+                System.out.println("1. NO_PAYOFF");
+                System.out.println("2. FIRED");
+                System.out.println("3. STOPPED_COOPERATING");
+                System.out.println("4. RETIREMENT");
+                int reasonChoice = scanner.nextInt();
+
+                switch (reasonChoice) {
+                    case 1:
+                        employee.status = Activity.NO_PAYOFF;
+                        break;
+                    case 2:
+                        employee.status = Activity.FIRED;
+                        break;
+                    case 3:
+                        employee.status = Activity.STOPPED_COOPERATING;
+                        break;
+                    case 4:
+                        employee.status = Activity.RETIREMENT;
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Setting status to ACTIVE by default.");
+                        employee.status = Activity.ACTIVE;
+                }
+
                 writeEmployeesToFile(employees, filename);
+                System.out.println("Employee archived with status: " + employee.getStatus());
                 break;
             }
         }

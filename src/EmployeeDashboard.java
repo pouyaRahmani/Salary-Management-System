@@ -15,7 +15,7 @@ public class EmployeeDashboard {
 
         do {
             System.out.println("\nEmployee Menu:");
-            System.out.println("1. View total earnings");
+            System.out.println("1. View total earnings by ID");
             System.out.println("2. View payment history");
             System.out.println("3. Search user by ID");
             System.out.println("4. Search user by Salary Type");
@@ -25,7 +25,7 @@ public class EmployeeDashboard {
 
             switch (choice) {
                 case 1:
-                    System.out.println("Total earnings: " + employee.calculateEarnings());
+                    calculateEarnings();
                     break;
                 case 2:
                     System.out.println("Payment history:");
@@ -46,6 +46,14 @@ public class EmployeeDashboard {
                     System.out.println("Invalid choice. Please try again.");
             }
         } while (choice != 5);
+    }
+
+    private void calculateEarnings() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter user ID: ");
+        int id = scanner.nextInt();
+        double earnings = Employee.calculateEarnings(id, FILENAME);
+        System.out.println("Total earnings: " + earnings);
     }
 
     private void searchUserById() {
