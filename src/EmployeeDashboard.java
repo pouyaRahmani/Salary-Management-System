@@ -19,7 +19,9 @@ public class EmployeeDashboard {
             System.out.println("2. View payment history");
             System.out.println("3. Search user by ID");
             System.out.println("4. Search user by Salary Type");
-            System.out.println("5. Log out");
+            System.out.println("5. Show all employees");
+            System.out.println("6. Show all manager");
+            System.out.println("7. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -40,12 +42,18 @@ public class EmployeeDashboard {
                     searchUserBySalaryType();
                     break;
                 case 5:
+                    Employee.showAllEmployees();
+                    break;
+                case 6:
+                    Employee.showAllManagers();
+                    break;
+                case 7:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 5);
+        } while (choice != 7);
     }
 
     private void calculateEarnings() {

@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Employee implements Serializable {
     private String firstName;
@@ -104,6 +101,29 @@ public class Employee implements Serializable {
         return result;
     }
 
+    public static List<Employee> showAllEmployees() {
+        Set<Employee> employees = readEmployeesFromFile("Employees.dat");
+        List<Employee> employeeList = new ArrayList<>();
+        for (Employee employee : employees) {
+            if (!employee.isManager) {
+                employeeList.add(employee);
+            }
+        }
+        System.out.println("Employee list: " + employeeList);
+        return employeeList;
+    }
+
+    public static List<Employee> showAllManagers() {
+        Set<Employee> employees = readEmployeesFromFile("Employees.dat");
+        List<Employee> managerList = new ArrayList<>();
+        for (Employee employee : employees) {
+            if (employee.isManager) {
+                managerList.add(employee);
+            }
+        }
+        System.out.println("Manager list:" +managerList);
+        return managerList;
+    }
     // Archive employee with given id and set status based on user input
     public static void archiveEmployee(int id, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
