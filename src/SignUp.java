@@ -9,6 +9,7 @@ public class SignUp {
     // Method to create a new employee
     public void createNewEmployee() {
         Scanner scanner = new Scanner(System.in);
+        Set<Employee> employees = readEmployeesFromFile("Employees.dat");
 
         // Collect employee details from user input
         System.out.print("Enter first name: ");
@@ -22,15 +23,27 @@ public class SignUp {
 
         Date birthDate = readDateInput(scanner, "Enter birth date (yyyy-MM-dd): ");
 
-        System.out.print("Enter username: ");
-        String userName = scanner.nextLine();
+        String userName;
+        do {
+            System.out.print("Enter username: ");
+            userName = scanner.nextLine();
+            if (isUsernameExists(userName, employees)) {
+                System.out.println("Username already exists. Please enter a different username.");
+            }
+        } while (isUsernameExists(userName, employees));
 
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
         int departmentId = readIntInput(scanner, "Enter department ID: ");
 
-        boolean isManager = readBooleanInput(scanner, "Is this employee a manager? (true/false): ");
+        boolean isManager = false;
+        if (!isDepartmentHasManager(departmentId, employees)) {
+            isManager = readBooleanInput(scanner, "Is this employee a manager? (true/false): ");
+        } else {
+            System.out.println("This department already has a manager. You cannot add another manager.");
+        }
+        scanner.nextLine();
 
         // Collect salary details
         Date salaryStartDate = readDateInput(scanner, "Enter salary start date (yyyy-MM-dd): ");
@@ -74,7 +87,13 @@ public class SignUp {
                 throw new IllegalArgumentException("Invalid salary type");
         }
 
-        int id = readIntInput(scanner, "Enter employee ID: ");
+        int id;
+        do {
+            id = readIntInput(scanner, "Enter employee ID: ");
+            if (isEmployeeIdExists(id, employees)) {
+                System.out.println("Employee ID already exists. Please enter a different ID.");
+            }
+        } while (isEmployeeIdExists(id, employees));
 
         Employee newEmployee = new Employee(firstName, lastName, ssn, birthDate, userName, password, id, departmentId, isManager, false, activityStatus);
         salary.employee = newEmployee;
@@ -184,5 +203,35 @@ public class SignUp {
         }
 
         return employees;
+    }
+
+    // Check if a username already exists
+    private boolean isUsernameExists(String userName, Set<Employee> employees) {
+        for (Employee employee : employees) {
+            if (employee.getUserName().equals(userName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check if an employee ID already exists
+    private boolean isEmployeeIdExists(int id, Set<Employee> employees) {
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Check if a department already has a manager
+    private boolean isDepartmentHasManager(int departmentId, Set<Employee> employees) {
+        for (Employee employee : employees) {
+            if (employee.isManager() && employee.getDepartmentId() == departmentId) {
+                return true;
+            }
+        }
+        return false;
     }
 }

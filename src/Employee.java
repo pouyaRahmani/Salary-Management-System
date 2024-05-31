@@ -69,6 +69,10 @@ public class Employee implements Serializable {
         return isManager;
     }
 
+    public int getDepartmentId(){
+        return departmentId;
+    }
+
     public boolean isArchived() {
         return isArchived;
     }
@@ -109,7 +113,10 @@ public class Employee implements Serializable {
                 employeeList.add(employee);
             }
         }
-        System.out.println("Employee list: " + employeeList);
+        System.out.println("Employee list:");
+        for (Employee employee : employeeList) {
+            System.out.println(employee);
+        }
         return employeeList;
     }
 
@@ -121,9 +128,13 @@ public class Employee implements Serializable {
                 managerList.add(employee);
             }
         }
-        System.out.println("Manager list:" +managerList);
+        System.out.println("Manager list:");
+        for (Employee manager : managerList) {
+            System.out.println(manager);
+        }
         return managerList;
     }
+
     // Archive employee with given id and set status based on user input
     public static void archiveEmployee(int id, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
