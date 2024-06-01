@@ -21,7 +21,8 @@ public class EmployeeDashboard {
             System.out.println("4. Search user by Salary Type");
             System.out.println("5. Show all employees");
             System.out.println("6. Show all manager");
-            System.out.println("7. Log out");
+            System.out.println("7. Update profile");
+            System.out.println("8. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -48,12 +49,15 @@ public class EmployeeDashboard {
                     Employee.showAllManagers();
                     break;
                 case 7:
+                    Employee.updateProfile(FILENAME);
+                    break;
+                case 8:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 7);
+        } while (choice != 8);
     }
 
     private void calculateEarnings() {

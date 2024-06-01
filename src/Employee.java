@@ -96,7 +96,7 @@ public class Employee implements Serializable {
         ArrayList<Employee> result = new ArrayList<>();
         for (Employee employee : employees) {
             for (Salary salary : employee.getPaymentHistory()) {
-                if (salaryType.isInstance(salary)) {
+                if (salaryType.isInstance(salary) && salary.activeSalary) {
                     result.add(employee);
                     break;
                 }
@@ -213,18 +213,94 @@ public class Employee implements Serializable {
         }
     }
 
+    // Update profile for employees and managers based on Id and filename
+    public static void updateProfile(String filename) {
+        Scanner scanner = new Scanner(System.in);
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        Employee employeeToUpdate = null;
+
+        System.out.print("Enter employee ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        System.out.print("Enter username: ");
+        String username = scanner.nextLine();
+
+        for (Employee employee : employees) {
+            if (employee.getId() == id && employee.getUserName().equals(username)) {
+                employeeToUpdate = employee;
+                break;
+            }
+        }
+
+        if (employeeToUpdate == null) {
+            System.out.println("Employee with ID " + id + " and username " + username + " not found.");
+            return;
+        }
+
+        System.out.println("Current details of the employee:");
+        System.out.println(employeeToUpdate);
+
+
+
+        System.out.println("Select field to update:");
+        System.out.println("1. First Name");
+        System.out.println("2. Last Name");
+        System.out.println("3. Social Security Number");
+        System.out.println("4. Birth Date");
+        System.out.println("5. Back");
+
+        int choice = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        switch (choice) {
+            case 1:
+                System.out.print("Enter new first name: ");
+                String newFirstName = scanner.nextLine();
+                employeeToUpdate.firstName = newFirstName;
+                break;
+            case 2:
+                System.out.print("Enter new last name: ");
+                String newLastName = scanner.nextLine();
+                employeeToUpdate.lastName = newLastName;
+                break;
+            case 3:
+                System.out.print("Enter new social security number: ");
+                String newSSN = scanner.nextLine();
+                employeeToUpdate.socialSecurityNumber = newSSN;
+                break;
+            case 4:
+                System.out.print("Enter new birth date (yyyy-MM-dd): ");
+                String newBirthDateStr = scanner.nextLine();
+                Date newBirthDate = Date.valueOf(newBirthDateStr);
+                employeeToUpdate.birthDate = newBirthDate;
+                break;
+            case 5:
+                System.out.println("Going back to the main menu.");
+                return;
+            default:
+                System.out.println("Invalid choice. Please try again.");
+                return;
+        }
+
+        writeEmployeesToFile(employees, filename);
+        System.out.println("Employee details updated successfully.");
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
                 "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", id=" + id +
-                ", departmentId=" + departmentId +
-                ", isManager=" + isManager +
-                ", status=" + status +
-                ", salaries=" + salaries +
-                ", isArchived=" + isArchived +
+                "\t\tlastName='" + lastName + '\'' +
+                "\t\tuserName='" + userName + '\'' +
+                "\t\tid=" + id +
+                "\t\tdepartmentId=" + departmentId +
+                "\t\tisManager=" + isManager +
+                "\n salaries=" + salaries +
+                "\t\tisArchived=" + isArchived +
+                "\t\tstatus=" + status +
+                "\t\tBirthDate=" + birthDate +
+                "\t\tSSN='" + socialSecurityNumber + '\'' +
                 '}';
     }
 }
