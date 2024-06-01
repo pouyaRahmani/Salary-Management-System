@@ -39,7 +39,7 @@ public class Employee implements Serializable {
         return salaries;
     }
 
-  public static double calculateEarnings(int id, String filename) {
+    public static double calculateEarnings(int id, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
         for (Employee employee : employees) {
             if (employee.getId() == id) {
@@ -69,7 +69,7 @@ public class Employee implements Serializable {
         return isManager;
     }
 
-    public int getDepartmentId(){
+    public int getDepartmentId() {
         return departmentId;
     }
 
@@ -241,8 +241,6 @@ public class Employee implements Serializable {
         System.out.println("Current details of the employee:");
         System.out.println(employeeToUpdate);
 
-
-
         System.out.println("Select field to update:");
         System.out.println("1. First Name");
         System.out.println("2. Last Name");
@@ -289,18 +287,29 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
+
+        // Find the active salary for the employee
+        Salary activeSalary = null;
+        for (Salary salary : salaries) {
+            if (salary.activeSalary) {
+                activeSalary = salary;
+                break;
+            }
+        }
+
+        // Return the employee details as a string with the active salary
         return "Employee{" +
-                "firstName='" + firstName + '\'' +
-                "\t\tlastName='" + lastName + '\'' +
-                "\t\tuserName='" + userName + '\'' +
-                "\t\tid=" + id +
-                "\t\tdepartmentId=" + departmentId +
+                "FirstName='" + firstName + '\'' +
+                "\t\tLastName='" + lastName + '\'' +
+                "\t\tUserName='" + userName + '\'' +
+                "\t\tId=" + id +
+                "\t\tDepartmentId=" + departmentId +
                 "\t\tisManager=" + isManager +
-                "\n salaries=" + salaries +
-                "\t\tisArchived=" + isArchived +
-                "\t\tstatus=" + status +
-                "\t\tBirthDate=" + birthDate +
+                "\t\tStatus=" + status +
+                "\nsalaries=" + salaries +
+                "\t\tBirthday=" + birthDate +
                 "\t\tSSN='" + socialSecurityNumber + '\'' +
+                (activeSalary != null ? "\nActive Salary=" + activeSalary : "") +
                 '}';
     }
 }
