@@ -33,7 +33,8 @@ class Fixed extends Salary {
 
     @Override
     public double getAmount() {
-        return monthlySalary * monthsWorked;
+        double amount = monthlySalary * monthsWorked + employee.getManagerBaseSalary();
+        return amount;
     }
 
     @Override
@@ -54,7 +55,8 @@ class HourlyWage extends Salary {
 
     @Override
     public double getAmount() {
-        return hourlyWage * hoursWorked *daysWorked;
+        double amount = hourlyWage * hoursWorked * daysWorked + employee.getManagerBaseSalary();
+        return amount;
     }
 
     @Override
@@ -75,7 +77,8 @@ class Commission extends Salary {
 
     @Override
     public double getAmount() {
-        return grossSales * commissionRate;
+        double amount = grossSales * commissionRate + employee.getManagerBaseSalary();
+        return amount;
     }
 
     @Override
@@ -98,7 +101,8 @@ class BasePlusCommission extends Salary {
 
     @Override
     public double getAmount() {
-        return (baseSalary * monthsWorked) + (grossSales * commissionRate);
+        double amount = (baseSalary * monthsWorked) + (grossSales * commissionRate) + employee.getManagerBaseSalary();
+        return amount;
     }
 
     @Override

@@ -15,11 +15,12 @@ public class RandomEmployee {
         String password = "password";
         int id = random.nextInt(1000);
         int departmentId = random.nextInt(100);
-        boolean isManager = random.nextBoolean();
+        boolean isManager = false;
         boolean isArchived = false;
         Activity status = Activity.ACTIVE;
+        double managerBaseSalary = 0;
 
-        return new Employee(firstName, lastName, socialSecurityNumber, birthDate, userName, password, id, departmentId, isManager, isArchived, status);
+        return new Employee(firstName, lastName, socialSecurityNumber, birthDate, userName, password, id, departmentId, isManager, isArchived, status, managerBaseSalary);
     }
 
     public static ArrayList<Salary> salaryGenerator(Employee employee) {

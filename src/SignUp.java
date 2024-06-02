@@ -38,8 +38,12 @@ public class SignUp {
         int departmentId = readIntInput(scanner, "Enter department ID: ");
 
         boolean isManager = false;
+        double managerBaseSalary = 0.0;
         if (!isDepartmentHasManager(departmentId, employees)) {
             isManager = readBooleanInput(scanner, "Is this employee a manager? (true/false): ");
+            if (isManager) {
+                managerBaseSalary = readDoubleInput(scanner, "Enter manager base salary: ");
+            }
         } else {
             System.out.println("This department already has a manager. You cannot add another manager.");
         }
@@ -95,7 +99,7 @@ public class SignUp {
             }
         } while (isEmployeeIdExists(id, employees));
 
-        Employee newEmployee = new Employee(firstName, lastName, ssn, birthDate, userName, password, id, departmentId, isManager, false, activityStatus);
+        Employee newEmployee = new Employee(firstName, lastName, ssn, birthDate, userName, password, id, departmentId, isManager, false, activityStatus, managerBaseSalary);
         salary.employee = newEmployee;
 
         newEmployee.addSalary(salary);

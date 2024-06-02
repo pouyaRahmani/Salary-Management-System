@@ -14,9 +14,10 @@ public class Employee implements Serializable {
     private boolean isArchived;
     private Activity status;
     private ArrayList<Salary> salaries;
+    private double managerBaseSalary;
 
     public Employee(String firstName, String lastName, String socialSecurityNumber, Date birthDate, String userName,
-                    String password, int id, int departmentId, boolean isManager, boolean isArchived, Activity status) {
+                    String password, int id, int departmentId, boolean isManager, boolean isArchived, Activity status, double managerBaseSalary) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.socialSecurityNumber = socialSecurityNumber;
@@ -29,6 +30,7 @@ public class Employee implements Serializable {
         this.isArchived = isArchived;
         this.status = status;
         this.salaries = new ArrayList<>();
+        this.managerBaseSalary = managerBaseSalary;
     }
 
     public void addSalary(Salary salary) {
@@ -79,6 +81,10 @@ public class Employee implements Serializable {
 
     public Activity getStatus() {
         return status;
+    }
+
+    public double getManagerBaseSalary() {
+        return managerBaseSalary;
     }
 
     public static Employee findById(int id, String filename) {
@@ -299,13 +305,14 @@ public class Employee implements Serializable {
 
         // Return the employee details as a string with the active salary
         return "Employee{" +
-                "FirstName='" + firstName + '\'' +
-                "\t\tLastName='" + lastName + '\'' +
-                "\t\tUserName='" + userName + '\'' +
+                "FirstName='" + firstName +
+                "\t\tLastName='" + lastName +
+                "\t\tUserName='" + userName +
                 "\t\tId=" + id +
                 "\t\tDepartmentId=" + departmentId +
                 "\t\tisManager=" + isManager +
                 "\t\tStatus=" + status +
+                (isManager ? "\t\tManager Base Salary=" + managerBaseSalary : "") +
                 "\nsalaries=" + salaries +
                 "\t\tBirthday=" + birthDate +
                 "\t\tSSN='" + socialSecurityNumber + '\'' +
