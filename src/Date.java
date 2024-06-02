@@ -1,6 +1,8 @@
 import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class Date implements Serializable {
     private int day;
@@ -72,5 +74,19 @@ public class Date implements Serializable {
     @Override
     public String toString() {
         return dateToString();
+    }
+
+    // Calculate the number of months between two dates
+    public static long monthsBetween(Date start, Date end) {
+        LocalDate startDate = LocalDate.of(start.getYear(), start.getMonth(), start.getDay());
+        LocalDate endDate = LocalDate.of(end.getYear(), end.getMonth(), end.getDay());
+        return ChronoUnit.MONTHS.between(startDate, endDate);
+    }
+
+    // Calculate the number of days between two dates
+    public static long daysBetween(Date start, Date end) {
+        LocalDate startDate = LocalDate.of(start.getYear(), start.getMonth(), start.getDay());
+        LocalDate endDate = LocalDate.of(end.getYear(), end.getMonth(), end.getDay());
+        return ChronoUnit.DAYS.between(startDate, endDate);
     }
 }
