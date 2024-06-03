@@ -317,6 +317,6 @@ public class Employee implements Serializable {
                 "\t\tBirthday=" + birthDate +
                 "\t\tSSN='" + socialSecurityNumber + '\'' +
                 (activeSalary != null ? "\nActive Salary=" + activeSalary : "") +
-                '}';
+                "}\n";
     }
 }

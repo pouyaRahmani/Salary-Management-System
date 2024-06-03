@@ -1,5 +1,8 @@
+import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class ManagerDashboard {
     private Employee employee;
@@ -24,7 +27,8 @@ public class ManagerDashboard {
             System.out.println("7. Show all employees");
             System.out.println("8. Show all managers");
             System.out.println("9. Update profile");
-            System.out.println("10. Log out");
+            System.out.println("10. Generate random employee");
+            System.out.println("11. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -60,12 +64,15 @@ public class ManagerDashboard {
                     Employee.updateProfile(FILENAME);
                     break;
                 case 10:
+                    generateRandomEmployee();
+                    break;
+                case 11:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 10);
+        } while (choice != 11);
     }
 
     private void calculateEarnings() {
@@ -187,5 +194,43 @@ public class ManagerDashboard {
 
         Employee.changeSalary(id, newSalary, FILENAME);
         System.out.println("Salary updated for user ID " + id);
+    }
+
+    private void generateRandomEmployee() {
+        Employee newEmployee = RandomEmployee.employeeGenerator(FILENAME);
+        ArrayList<Salary> salaries = RandomEmployee.salaryGenerator(newEmployee);
+        for (Salary salary : salaries) {
+            newEmployee.addSalary(salary);
+        }
+        saveEmployeeToFile(newEmployee, FILENAME);
+        System.out.println("Random employee generated and added:");
+        System.out.println(newEmployee);
+    }
+
+    // Method to read employees from a file
+    private static Set<Employee> readEmployeesFromFile(String filename) {
+        Set<Employee> employees = new HashSet<>();
+        File file = new File(filename);
+        if (file.exists()) {
+            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
+                employees = (Set<Employee>) ois.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return employees;
+    }
+
+    // Method to save an employee to a file
+    private void saveEmployeeToFile(Employee employee, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        employees.add(employee);
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
+            oos.writeObject(employees);
+            System.out.println("Employee information saved to " + filename);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

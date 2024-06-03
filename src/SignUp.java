@@ -6,6 +6,7 @@ import java.util.Set;
 
 public class SignUp {
 
+    private static final String FILENAME = "Employees.dat";
     // Method to create a new employee
     public void createNewEmployee() {
         Scanner scanner = new Scanner(System.in);
@@ -27,10 +28,10 @@ public class SignUp {
         do {
             System.out.print("Enter username: ");
             userName = scanner.nextLine();
-            if (isUsernameExists(userName, employees)) {
+            if (isUsernameExists(userName, FILENAME )) {
                 System.out.println("Username already exists. Please enter a different username.");
             }
-        } while (isUsernameExists(userName, employees));
+        } while (isUsernameExists(userName, FILENAME));
 
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
@@ -94,10 +95,10 @@ public class SignUp {
         int id;
         do {
             id = readIntInput(scanner, "Enter employee ID: ");
-            if (isEmployeeIdExists(id, employees)) {
+            if (isEmployeeIdExists(id, FILENAME)) {
                 System.out.println("Employee ID already exists. Please enter a different ID.");
             }
-        } while (isEmployeeIdExists(id, employees));
+        } while (isEmployeeIdExists(id, FILENAME));
 
         Employee newEmployee = new Employee(firstName, lastName, ssn, birthDate, userName, password, id, departmentId, isManager, false, activityStatus, managerBaseSalary);
         salary.employee = newEmployee;
@@ -194,10 +195,9 @@ public class SignUp {
     }
 
     // Method to read employees from a file
-    private Set<Employee> readEmployeesFromFile(String filename) {
+    private static Set<Employee> readEmployeesFromFile(String filename) {
         Set<Employee> employees = new HashSet<>();
         File file = new File(filename);
-
         if (file.exists()) {
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {
                 employees = (Set<Employee>) ois.readObject();
@@ -205,14 +205,14 @@ public class SignUp {
                 e.printStackTrace();
             }
         }
-
         return employees;
     }
 
     // Check if a username already exists
-    private boolean isUsernameExists(String userName, Set<Employee> employees) {
+    public static boolean isUsernameExists(String username, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
         for (Employee employee : employees) {
-            if (employee.getUserName().equals(userName)) {
+            if (employee.getUserName().equals(username)) {
                 return true;
             }
         }
@@ -220,7 +220,8 @@ public class SignUp {
     }
 
     // Check if an employee ID already exists
-    private boolean isEmployeeIdExists(int id, Set<Employee> employees) {
+    public static boolean isEmployeeIdExists(int id, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
         for (Employee employee : employees) {
             if (employee.getId() == id) {
                 return true;
