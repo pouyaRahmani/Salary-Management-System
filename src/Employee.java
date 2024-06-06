@@ -41,6 +41,29 @@ public class Employee implements Serializable {
         return salaries;
     }
 
+    // Method to show payment history
+    public static void showPaymentHistory(String filename) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter employee ID: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                System.out.println("Payment History for Employee ID " + id + ":");
+                for (Salary salary : employee.getPaymentHistory()) {
+                    System.out.println(salary);
+                    if (salary.activeSalary) {
+                        System.out.println("(Active Salary)");
+                    }
+                }
+                return;
+            }
+        }
+        System.out.println("Employee not found.");
+    }
+
     public static double calculateEarnings(int id, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
         for (Employee employee : employees) {
@@ -196,6 +219,37 @@ public class Employee implements Serializable {
                 break;
             }
         }
+    }
+
+    // Method to calculate total earnings of a department
+    public static double calculateDepartmentEarnings(String filename) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter department ID: ");
+        int departmentId = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        double totalEarnings = 0;
+        for (Employee employee : employees) {
+            if (employee.getDepartmentId() == departmentId) {
+                for (Salary salary : employee.getPaymentHistory()) {
+                    totalEarnings += salary.getAmount();
+                }
+            }
+        }
+        return totalEarnings;
+    }
+
+    // Method to calculate total earnings of all employees
+    public static double calculateAllEmployeesEarnings(String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        double totalEarnings = 0;
+        for (Employee employee : employees) {
+            for (Salary salary : employee.getPaymentHistory()) {
+                totalEarnings += salary.getAmount();
+            }
+        }
+        return totalEarnings;
     }
 
     private static Set<Employee> readEmployeesFromFile(String filename) {

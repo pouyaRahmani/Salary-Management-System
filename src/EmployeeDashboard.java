@@ -20,9 +20,11 @@ public class EmployeeDashboard {
             System.out.println("3. Search user by ID");
             System.out.println("4. Search user by Salary Type");
             System.out.println("5. Show all employees");
-            System.out.println("6. Show all manager");
+            System.out.println("6. Show all managers");
             System.out.println("7. Update profile");
-            System.out.println("8. Log out");
+            System.out.println("8. View department earnings");
+            System.out.println("9. View all employees' earnings");
+            System.out.println("10. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -31,10 +33,7 @@ public class EmployeeDashboard {
                     calculateEarnings();
                     break;
                 case 2:
-                    System.out.println("Payment history:");
-                    for (Salary salary : employee.getPaymentHistory()) {
-                        System.out.println(salary);
-                    }
+                    Employee.showPaymentHistory(FILENAME);
                     break;
                 case 3:
                     searchUserById();
@@ -52,12 +51,18 @@ public class EmployeeDashboard {
                     Employee.updateProfile(FILENAME);
                     break;
                 case 8:
+                    viewDepartmentEarnings();
+                    break;
+                case 9:
+                    viewAllEmployeesEarnings();
+                    break;
+                case 10:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 8);
+        } while (choice != 10);
     }
 
     private void calculateEarnings() {
@@ -112,5 +117,18 @@ public class EmployeeDashboard {
                 System.out.println(e);
             }
         }
+    }
+
+    private void viewDepartmentEarnings() {
+        double departmentEarnings = Employee.calculateDepartmentEarnings(FILENAME);
+        if(departmentEarnings == 0) {
+            System.out.println("No earnings for the department.");
+        } else {
+            System.out.println("Total department earnings: " + departmentEarnings);
+        }
+    }
+    private void viewAllEmployeesEarnings() {
+        double totalEarnings = Employee.calculateAllEmployeesEarnings(FILENAME);
+        System.out.println("Total earnings of all employees: " + totalEarnings);
     }
 }

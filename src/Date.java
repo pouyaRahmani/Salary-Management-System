@@ -78,6 +78,11 @@ public class Date implements Serializable {
 
     // Calculate the number of months between two dates
     public static long monthsBetween(Date start, Date end) {
+        if (start.compareTo(end) > 0) {
+            Date temp = start;
+            start = end;
+            end = temp;
+        }
         LocalDate startDate = LocalDate.of(start.getYear(), start.getMonth(), start.getDay());
         LocalDate endDate = LocalDate.of(end.getYear(), end.getMonth(), end.getDay());
         return ChronoUnit.MONTHS.between(startDate, endDate);
@@ -85,6 +90,11 @@ public class Date implements Serializable {
 
     // Calculate the number of days between two dates
     public static long daysBetween(Date start, Date end) {
+        if (start.compareTo(end) > 0) {
+            Date temp = start;
+            start = end;
+            end = temp;
+        }
         LocalDate startDate = LocalDate.of(start.getYear(), start.getMonth(), start.getDay());
         LocalDate endDate = LocalDate.of(end.getYear(), end.getMonth(), end.getDay());
         return ChronoUnit.DAYS.between(startDate, endDate);

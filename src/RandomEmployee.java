@@ -5,7 +5,7 @@ import java.util.Random;
 public class RandomEmployee {
     private static final String[] randomNames = {"Sam", "Pouya", "Chris", "Pat", "Alex", "Taylor",
             "Jordan", "Charlie", "Jamie", "Casey", "Dakota", "Riley", "Jessie", "Morgan",
-            "Rowan", "Sage", "Harley", "Marley", "Terry", "Shay", "Stevie", "Quinn", "Blair",};
+            "Rowan", "Sage", "Harley", "Marley", "Terry", "Shay", "Stevie", "Quinn", "Blair"};
 
     private static final String[] randomUserNames = {
             "user1", "user2", "user3", "user4", "user5", "user6",
@@ -49,17 +49,18 @@ public class RandomEmployee {
     public static ArrayList<Salary> salaryGenerator(Employee employee) {
         ArrayList<Salary> salaries = new ArrayList<>();
         Date startDate = generateRandomDate(2020, 2022);
-        boolean activeSalary = true;
 
-        for (int i = 0; i < random.nextInt(5) + 1; i++) { // Generate between 1 and 5 salary records
+        // Generate between 1 and 5 salary records
+        for (int i = 0; i < random.nextInt(5) + 1; i++) {
             Date endDate = generateRandomDate(startDate.getYear(), startDate.getYear() + 2);
+            boolean activeSalary = (i == 0); // Only the first generated salary will be active
 
             double monthlySalary = 2000 + random.nextDouble() * 8000; // Between 2000 and 10000
             double hourlyWage = 10 + random.nextDouble() * 40; // Between 10 and 50
-            double hoursWorked = 80 + random.nextDouble() * 120; // Between 80 and 200
-            double grossSales = 10000 + random.nextDouble() * 90000; // Between 10000 and 100000
+            double hoursWorked = 0 + random.nextDouble() * 24; // Between 0 and 24
+            double grossSales = 100 + random.nextDouble() * 9000; // Between 100 and 9100
             double commissionRate = 0.01 + random.nextDouble() * 0.19; // Between 0.01 and 0.20
-            double baseSalary = 1000 + random.nextDouble() * 5000; // Between 1000 and 6000
+            double baseSalary = 100 + random.nextDouble() * 5000; // Between 100 and 5100
 
             int salaryType = random.nextInt(4);
             switch (salaryType) {
