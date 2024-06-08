@@ -252,7 +252,7 @@ public class Employee implements Serializable {
         return totalEarnings;
     }
 
-    private static Set<Employee> readEmployeesFromFile(String filename) {
+    public static Set<Employee> readEmployeesFromFile(String filename) {
         Set<Employee> employees = new HashSet<>();
         File file = new File(filename);
         if (file.exists()) {

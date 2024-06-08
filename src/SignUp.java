@@ -7,10 +7,16 @@ import java.util.Set;
 public class SignUp {
 
     private static final String FILENAME = "Employees.dat";
+    private Organization organization;
+
+    public SignUp() {
+        organization = new Organization();
+    }
+
     // Method to create a new employee
     public void createNewEmployee() {
         Scanner scanner = new Scanner(System.in);
-        Set<Employee> employees = readEmployeesFromFile("Employees.dat");
+        Set<Employee> employees = readEmployeesFromFile(FILENAME);
 
         // Collect employee details from user input
         System.out.print("Enter first name: ");
@@ -28,7 +34,7 @@ public class SignUp {
         do {
             System.out.print("Enter username: ");
             userName = scanner.nextLine();
-            if (isUsernameExists(userName, FILENAME )) {
+            if (isUsernameExists(userName, FILENAME)) {
                 System.out.println("Username already exists. Please enter a different username.");
             }
         } while (isUsernameExists(userName, FILENAME));
@@ -36,7 +42,14 @@ public class SignUp {
         System.out.print("Enter password: ");
         String password = scanner.nextLine();
 
-        int departmentId = readIntInput(scanner, "Enter department ID: ");
+        int departmentId;
+        do {
+            departmentId = readIntInput(scanner, "Enter department ID: ");
+            if (!organization.isValidDepartmentId(departmentId)) {
+                System.out.println("Invalid department ID. Please enter a valid department ID.");
+            }
+        } while (!organization.isValidDepartmentId(departmentId));
+
 
         boolean isManager = false;
         double managerBaseSalary = 0.0;

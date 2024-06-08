@@ -30,7 +30,9 @@ public class ManagerDashboard {
             System.out.println("10. Generate random employee");
             System.out.println("11. View department earnings");
             System.out.println("12. View all employees' earnings");
-            System.out.println("13. Log out");
+            System.out.println("13. Add Department");
+            System.out.println("14. Count Employees in Department");
+            System.out.println("15. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -72,12 +74,18 @@ public class ManagerDashboard {
                     viewAllEmployeesEarnings();
                     break;
                 case 13:
+                    addDepartment();
+                    break;
+                case 14:
+                    countEmployeesInDepartment();
+                    break;
+                case 15:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 13);
+        } while (choice != 15);
     }
 
     private void calculateEarnings() {
@@ -251,5 +259,24 @@ public class ManagerDashboard {
     private void viewAllEmployeesEarnings() {
         double totalEarnings = Employee.calculateAllEmployeesEarnings(FILENAME);
         System.out.println("Total earnings of all employees: " + totalEarnings);
+    }
+
+    private void addDepartment() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter department ID: ");
+        int departmentId = scanner.nextInt();
+        scanner.nextLine();  // Consume newline
+        System.out.print("Enter department name: ");
+        String departmentName = scanner.nextLine();
+        Organization.addDepartment(departmentId, departmentName);
+        System.out.println("Department added successfully.");
+    }
+
+    private void countEmployeesInDepartment() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter department ID: ");
+        int departmentId = scanner.nextInt();
+        int count = Organization.countEmployeesInDepartment(departmentId);
+        System.out.println("Total employees in department " + departmentId + ": " + count);
     }
 }
