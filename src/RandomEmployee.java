@@ -37,7 +37,7 @@ public class RandomEmployee {
         } while (SignUp.isEmployeeIdExists(id, filename));
 
         String password = "password";
-        int departmentId = random.nextInt(100);
+        int departmentId = random.nextInt(30); // Random department ID between 0 and 29
         boolean isManager = false;
         boolean isArchived = false;
         Activity status = Activity.ACTIVE;

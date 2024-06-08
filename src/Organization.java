@@ -20,6 +20,14 @@ public class Organization {
         saveDepartmentsToFile(departments);
     }
 
+    public static void showAllDepartments() {
+        List<Department> departments = loadDepartmentsFromFile();
+        System.out.println("All Departments:");
+        for (Department department : departments) {
+            System.out.println(department);
+        }
+    }
+
     public List<Department> getDepartments() {
         return departments;
     }
@@ -34,7 +42,7 @@ public class Organization {
             }
         } else {
             // If file doesn't exist, create default departments
-            for (int i = 1; i <= 20; i++) {
+            for (int i = 1; i <= 30; i++) {
                 departments.add(new Department(i, "Department " + i));
             }
             saveDepartments();
@@ -88,6 +96,8 @@ public class Organization {
         for (Employee employee : employees) {
             if (employee.getDepartmentId() == departmentId) {
                 count++;
+            } else {
+                System.out.println("No employees found in the department.");
             }
         }
         return count;

@@ -32,7 +32,8 @@ public class ManagerDashboard {
             System.out.println("12. View all employees' earnings");
             System.out.println("13. Add Department");
             System.out.println("14. Count Employees in Department");
-            System.out.println("15. Log out");
+            System.out.println("15. View All Departments");
+            System.out.println("16. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -80,12 +81,15 @@ public class ManagerDashboard {
                     countEmployeesInDepartment();
                     break;
                 case 15:
+                    Organization.showAllDepartments();
+                    break;
+                case 16:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 15);
+        } while (choice != 16);
     }
 
     private void calculateEarnings() {
@@ -279,4 +283,5 @@ public class ManagerDashboard {
         int count = Organization.countEmployeesInDepartment(departmentId);
         System.out.println("Total employees in department " + departmentId + ": " + count);
     }
+
 }
