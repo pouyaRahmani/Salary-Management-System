@@ -89,17 +89,5 @@ public class Organization {
         }
         return false;
     }
-
-    public static int countEmployeesInDepartment(int departmentId) {
-        Set<Employee> employees = Employee.readEmployeesFromFile("Employees.dat");
-        int count = 0;
-        for (Employee employee : employees) {
-            if (employee.getDepartmentId() == departmentId) {
-                count++;
-            } else {
-                System.out.println("No employees found in the department.");
-            }
-        }
-        return count;
-    }
+    
 }

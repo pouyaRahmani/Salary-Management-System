@@ -280,7 +280,7 @@ public class ManagerDashboard {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter department ID: ");
         int departmentId = scanner.nextInt();
-        int count = Organization.countEmployeesInDepartment(departmentId);
+        int count = Department.countEmployeesInDepartment(departmentId);
         System.out.println("Total employees in department " + departmentId + ": " + count);
     }
 
