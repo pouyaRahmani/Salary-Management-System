@@ -17,6 +17,10 @@ public abstract class Salary implements Serializable {
         this.daysWorked = Date.daysBetween(startDate, endDate);
     }
 
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public abstract double getAmount();
 
     @Override

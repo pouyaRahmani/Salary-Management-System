@@ -33,7 +33,7 @@ public class Login {
         }
     }
 
-    private Employee authenticateEmployee(String username, String password, String filename) {
+    public Employee authenticateEmployee(String username, String password, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
 
         for (Employee employee : employees) {

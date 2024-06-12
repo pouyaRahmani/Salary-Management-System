@@ -195,7 +195,7 @@ public class SignUp {
     }
 
     // Method to save an employee to a file
-    private void saveEmployeeToFile(Employee employee, String filename) {
+    public void saveEmployeeToFile(Employee employee, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
         employees.add(employee);
 
@@ -208,7 +208,7 @@ public class SignUp {
     }
 
     // Method to read employees from a file
-    private static Set<Employee> readEmployeesFromFile(String filename) {
+    public static Set<Employee> readEmployeesFromFile(String filename) {
         Set<Employee> employees = new HashSet<>();
         File file = new File(filename);
         if (file.exists()) {
@@ -244,7 +244,7 @@ public class SignUp {
     }
 
     // Check if a department already has a manager
-    private boolean isDepartmentHasManager(int departmentId, Set<Employee> employees) {
+    public boolean isDepartmentHasManager(int departmentId, Set<Employee> employees) {
         for (Employee employee : employees) {
             if (employee.isManager() && employee.getDepartmentId() == departmentId) {
                 return true;
@@ -252,4 +252,6 @@ public class SignUp {
         }
         return false;
     }
+
+
 }

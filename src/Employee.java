@@ -366,6 +366,7 @@ public class Employee implements Serializable {
                 "\t\tDepartmentId=" + departmentId +
                 "\t\tisManager=" + isManager +
                 "\t\tStatus=" + status +
+                "\t\t Archived=" + isArchived +
                 (isManager ? "\t\tManager Base Salary=" + managerBaseSalary : "") +
                 "\nsalaries=" + salaries +
                 "\t\tBirthday=" + birthDate +
