@@ -117,6 +117,7 @@ public class SignUp {
         salary.employee = newEmployee;
 
         newEmployee.addSalary(salary);
+        newEmployee.addDepartmentHistory(departmentId); // Add department to history
 
         saveEmployeeToFile(newEmployee, "Employees.dat");
 

@@ -186,6 +186,7 @@ public class SignupFrame extends JFrame {
                     Employee newEmployee = new Employee(firstName, lastName, ssn, birthDate, userName, password, id, departmentId, isManager, false, activityStatus, managerBaseSalary);
                     salary.setEmployee(newEmployee);
                     newEmployee.addSalary(salary);
+                    newEmployee.addDepartmentHistory(departmentId); // Add department to history
 
                     signUp.saveEmployeeToFile(newEmployee, "Employees.dat");
 

@@ -89,5 +89,28 @@ public class Organization {
         }
         return false;
     }
-    
+
+    public static void changeEmployeeDepartment(int employeeId, int newDepartmentId, String filename) {
+        if (!isValidDepartmentId(newDepartmentId)) {
+            System.out.println("Invalid department ID.");
+            return;
+        }
+
+        Set<Employee> employees = Employee.readEmployeesFromFile(filename);
+        for (Employee employee : employees) {
+            if (employee.getId() == employeeId) {
+                if (employee.isManager()) {
+                    System.out.println("Managers cannot change their departments.");
+                    return;
+                }
+
+                employee.addDepartmentHistory(newDepartmentId);
+                employee.setDepartmentId(newDepartmentId);
+                Employee.writeEmployeesToFile(employees, filename);
+                System.out.println("Employee department changed successfully.");
+                return;
+            }
+        }
+        System.out.println("Employee not found.");
+    }
 }

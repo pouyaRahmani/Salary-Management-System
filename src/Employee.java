@@ -14,7 +14,13 @@ public class Employee implements Serializable {
     private boolean isArchived;
     private Activity status;
     private ArrayList<Salary> salaries;
+    private ArrayList<Integer> departmentHistory; // Attribute to store department history
     private double managerBaseSalary;
+
+    public Employee() {
+        this.departmentHistory = new ArrayList<>();
+        this.salaries = new ArrayList<>();
+    }
 
     public Employee(String firstName, String lastName, String socialSecurityNumber, Date birthDate, String userName,
                     String password, int id, int departmentId, boolean isManager, boolean isArchived, Activity status, double managerBaseSalary) {
@@ -30,6 +36,7 @@ public class Employee implements Serializable {
         this.isArchived = isArchived;
         this.status = status;
         this.salaries = new ArrayList<>();
+        this.departmentHistory = new ArrayList<>(); // Initialize the departmentHistory list
         this.managerBaseSalary = managerBaseSalary;
     }
 
@@ -108,6 +115,18 @@ public class Employee implements Serializable {
 
     public double getManagerBaseSalary() {
         return managerBaseSalary;
+    }
+
+    public void setDepartmentId(int departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public ArrayList<Integer> getDepartmentHistory() {
+        return departmentHistory;
+    }
+
+    public void addDepartmentHistory(int departmentId) {
+        departmentHistory.add(departmentId);
     }
 
     public static Employee findById(int id, String filename) {
@@ -265,7 +284,7 @@ public class Employee implements Serializable {
         return employees;
     }
 
-    private static void writeEmployeesToFile(Set<Employee> employees, String filename) {
+    static void writeEmployeesToFile(Set<Employee> employees, String filename) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {
             oos.writeObject(employees);
         } catch (IOException e) {
@@ -372,6 +391,7 @@ public class Employee implements Serializable {
                 "\t\tBirthday=" + birthDate +
                 "\t\tSSN='" + socialSecurityNumber + '\'' +
                 (activeSalary != null ? "\nActive Salary=" + activeSalary : "") +
+                "\nDepartment History=" + departmentHistory +
                 "}\n";
     }
 }

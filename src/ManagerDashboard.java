@@ -33,7 +33,8 @@ public class ManagerDashboard {
             System.out.println("13. Add Department");
             System.out.println("14. Count Employees in Department");
             System.out.println("15. View All Departments");
-            System.out.println("16. Log out");
+            System.out.println("16. Change Employee Department");
+            System.out.println("17. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -84,12 +85,15 @@ public class ManagerDashboard {
                     Organization.showAllDepartments();
                     break;
                 case 16:
+                    changeEmployeeDepartment();
+                    break;
+                case 17:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 16);
+        } while (choice != 17);
     }
 
     private void calculateEarnings() {
@@ -284,4 +288,12 @@ public class ManagerDashboard {
         System.out.println("Total employees in department " + departmentId + ": " + count);
     }
 
+    private void changeEmployeeDepartment() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter employee ID: ");
+        int employeeId = scanner.nextInt();
+        System.out.print("Enter new department ID: ");
+        int newDepartmentId = scanner.nextInt();
+        Organization.changeEmployeeDepartment(employeeId, newDepartmentId, FILENAME);
+    }
 }
