@@ -9,6 +9,7 @@ public class SignupFrame extends JFrame {
 
     public SignupFrame() {
         signUp = new SignUp();
+        Organization organization = new Organization();
 
         setTitle("Sign Up");
         setSize(500, 700);
@@ -140,7 +141,7 @@ public class SignupFrame extends JFrame {
                         return;
                     }
 
-                    if (!Organization.isValidDepartmentId(departmentId)) {
+                    if (!organization.isValidDepartmentId(departmentId)) {
                         JOptionPane.showMessageDialog(null, "Invalid Department ID. Please enter a valid Department ID.", "Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }

@@ -1,17 +1,16 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
-public class ManagerDashboard {
+public class ManagerDashboard implements ManagerDashboardInterface {
     private Employee employee;
     private static final String FILENAME = "Employees.dat";
+    private Organization organization = new Organization();
 
     public ManagerDashboard(Employee employee) {
         this.employee = employee;
     }
 
+    @Override
     public void showMenu() {
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -82,7 +81,7 @@ public class ManagerDashboard {
                     countEmployeesInDepartment();
                     break;
                 case 15:
-                    Organization.showAllDepartments();
+                    viewAllDepartments();
                     break;
                 case 16:
                     changeEmployeeDepartment();
@@ -96,7 +95,8 @@ public class ManagerDashboard {
         } while (choice != 17);
     }
 
-    private void calculateEarnings() {
+    @Override
+    public void calculateEarnings() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID: ");
         int id = scanner.nextInt();
@@ -104,7 +104,8 @@ public class ManagerDashboard {
         System.out.println("Total earnings: " + earnings);
     }
 
-    private void searchUserById() {
+    @Override
+    public void searchUserById() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID: ");
         int id = scanner.nextInt();
@@ -116,7 +117,8 @@ public class ManagerDashboard {
         }
     }
 
-    private void searchUserBySalaryType() {
+    @Override
+    public void searchUserBySalaryType() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter salary type (1: Fixed, 2: Hourly, 3: Commission, 4: Base Plus Commission): ");
         int salaryTypeChoice = scanner.nextInt();
@@ -150,14 +152,16 @@ public class ManagerDashboard {
         }
     }
 
-    private void archiveUser() {
+    @Override
+    public void archiveUser() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID to archive: ");
         int id = scanner.nextInt();
         Employee.archiveEmployee(id, FILENAME);
     }
 
-    private void changeSalary() {
+    @Override
+    public void changeSalary() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID: ");
         int id = scanner.nextInt();
@@ -217,7 +221,8 @@ public class ManagerDashboard {
         System.out.println("Salary updated for user ID " + id);
     }
 
-    private void generateRandomEmployee() {
+    @Override
+    public void generateRandomEmployee() {
         Employee newEmployee = RandomEmployee.employeeGenerator(FILENAME);
         ArrayList<Salary> salaries = RandomEmployee.salaryGenerator(newEmployee);
         for (Salary salary : salaries) {
@@ -255,32 +260,36 @@ public class ManagerDashboard {
         }
     }
 
-    private void viewDepartmentEarnings() {
+    @Override
+    public void viewDepartmentEarnings() {
         double departmentEarnings = Employee.calculateDepartmentEarnings(FILENAME);
-        if(departmentEarnings == 0) {
+        if (departmentEarnings == 0) {
             System.out.println("No earnings for the department.");
         } else {
             System.out.println("Total department earnings: " + departmentEarnings);
         }
     }
 
-    private void viewAllEmployeesEarnings() {
+    @Override
+    public void viewAllEmployeesEarnings() {
         double totalEarnings = Employee.calculateAllEmployeesEarnings(FILENAME);
         System.out.println("Total earnings of all employees: " + totalEarnings);
     }
 
-    private void addDepartment() {
+    @Override
+    public void addDepartment() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter department ID: ");
         int departmentId = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
+        scanner.nextLine();
         System.out.print("Enter department name: ");
         String departmentName = scanner.nextLine();
-        Organization.addDepartment(departmentId, departmentName);
+        organization.addDepartment(departmentId, departmentName);
         System.out.println("Department added successfully.");
     }
 
-    private void countEmployeesInDepartment() {
+    @Override
+    public void countEmployeesInDepartment() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter department ID: ");
         int departmentId = scanner.nextInt();
@@ -288,12 +297,22 @@ public class ManagerDashboard {
         System.out.println("Total employees in department " + departmentId + ": " + count);
     }
 
-    private void changeEmployeeDepartment() {
+    @Override
+    public void changeEmployeeDepartment() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter employee ID: ");
         int employeeId = scanner.nextInt();
         System.out.print("Enter new department ID: ");
         int newDepartmentId = scanner.nextInt();
-        Organization.changeEmployeeDepartment(employeeId, newDepartmentId, FILENAME);
+        organization.changeEmployeeDepartment(employeeId, newDepartmentId, FILENAME);
+    }
+
+    @Override
+    public void viewAllDepartments() {
+        List<String> departments = organization.showAllDepartments();
+        System.out.println("Departments:");
+        for (String dept : departments) {
+            System.out.println(dept);
+        }
     }
 }
