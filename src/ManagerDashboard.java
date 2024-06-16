@@ -1,12 +1,10 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class ManagerDashboard {
     private Employee employee;
     private static final String FILENAME = "Employees.dat";
+    Organization organization = new Organization();
 
     public ManagerDashboard(Employee employee) {
         this.employee = employee;
@@ -82,7 +80,7 @@ public class ManagerDashboard {
                     countEmployeesInDepartment();
                     break;
                 case 15:
-                    Organization.showAllDepartments();
+                    viewAllDepartments();
                     break;
                 case 16:
                     changeEmployeeDepartment();
@@ -257,7 +255,7 @@ public class ManagerDashboard {
 
     private void viewDepartmentEarnings() {
         double departmentEarnings = Employee.calculateDepartmentEarnings(FILENAME);
-        if(departmentEarnings == 0) {
+        if (departmentEarnings == 0) {
             System.out.println("No earnings for the department.");
         } else {
             System.out.println("Total department earnings: " + departmentEarnings);
@@ -276,7 +274,7 @@ public class ManagerDashboard {
         scanner.nextLine();  // Consume newline
         System.out.print("Enter department name: ");
         String departmentName = scanner.nextLine();
-        Organization.addDepartment(departmentId, departmentName);
+        organization.addDepartment(departmentId, departmentName);
         System.out.println("Department added successfully.");
     }
 
@@ -294,6 +292,14 @@ public class ManagerDashboard {
         int employeeId = scanner.nextInt();
         System.out.print("Enter new department ID: ");
         int newDepartmentId = scanner.nextInt();
-        Organization.changeEmployeeDepartment(employeeId, newDepartmentId, FILENAME);
+        organization.changeEmployeeDepartment(employeeId, newDepartmentId, FILENAME);
+    }
+
+    private void viewAllDepartments() {
+        List<String> departments = organization.showAllDepartments();
+        System.out.println("Departments:");
+        for (String dept : departments) {
+            System.out.println(dept);
+        }
     }
 }
