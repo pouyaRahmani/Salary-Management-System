@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class EmployeeDashboard {
+public class EmployeeDashboard implements EmployeeDashboardInterface {
     private Employee employee;
     private static final String FILENAME = "Employees.dat";
 
@@ -9,6 +9,7 @@ public class EmployeeDashboard {
         this.employee = employee;
     }
 
+    @Override
     public void showMenu() {
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -65,7 +66,8 @@ public class EmployeeDashboard {
         } while (choice != 10);
     }
 
-    private void calculateEarnings() {
+    @Override
+    public void calculateEarnings() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID: ");
         int id = scanner.nextInt();
@@ -73,7 +75,8 @@ public class EmployeeDashboard {
         System.out.println("Total earnings: " + earnings);
     }
 
-    private void searchUserById() {
+    @Override
+    public void searchUserById() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter user ID: ");
         int id = scanner.nextInt();
@@ -85,7 +88,8 @@ public class EmployeeDashboard {
         }
     }
 
-    private void searchUserBySalaryType() {
+    @Override
+    public void searchUserBySalaryType() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter salary type (1: Fixed, 2: Hourly, 3: Commission, 4: Base Plus Commission): ");
         int salaryTypeChoice = scanner.nextInt();
@@ -119,7 +123,8 @@ public class EmployeeDashboard {
         }
     }
 
-    private void viewDepartmentEarnings() {
+    @Override
+    public void viewDepartmentEarnings() {
         double departmentEarnings = Employee.calculateDepartmentEarnings(FILENAME);
         if(departmentEarnings == 0) {
             System.out.println("No earnings for the department.");
@@ -127,7 +132,9 @@ public class EmployeeDashboard {
             System.out.println("Total department earnings: " + departmentEarnings);
         }
     }
-    private void viewAllEmployeesEarnings() {
+
+    @Override
+    public void viewAllEmployeesEarnings() {
         double totalEarnings = Employee.calculateAllEmployeesEarnings(FILENAME);
         System.out.println("Total earnings of all employees: " + totalEarnings);
     }

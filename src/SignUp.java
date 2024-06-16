@@ -4,7 +4,7 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Set;
 
-public class SignUp implements FileManager {
+public class SignUp {
 
     private static final String FILENAME = "Employees.dat";
     private Organization organization;
