@@ -9,10 +9,19 @@ public class Date implements Serializable {
     private int month;
     private int year;
 
+    // Constructor that initializes the Date object with the given day, month, and year
     public Date(int day, int month, int year) {
         this.day = day;
         this.month = month;
         this.year = year;
+    }
+
+    // Constructor that initializes the Date object with the current date
+    public Date() {
+        LocalDate currentDate = LocalDate.now();
+        this.day = currentDate.getDayOfMonth();
+        this.month = currentDate.getMonthValue();
+        this.year = currentDate.getYear();
     }
 
     // Converts the Date object to a string in the format "dd/MM/yyyy"

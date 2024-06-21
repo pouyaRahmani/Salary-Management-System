@@ -21,19 +21,21 @@ public class ManagerDashboard implements ManagerDashboardInterface {
             System.out.println("2. View payment history");
             System.out.println("3. Search user by ID");
             System.out.println("4. Search user by Salary Type");
-            System.out.println("5. Archive user");
-            System.out.println("6. Change salary");
-            System.out.println("7. Show all employees");
-            System.out.println("8. Show all managers");
-            System.out.println("9. Update profile");
-            System.out.println("10. Generate random employee");
-            System.out.println("11. View department earnings");
-            System.out.println("12. View all employees' earnings");
-            System.out.println("13. Add Department");
-            System.out.println("14. Count Employees in Department");
-            System.out.println("15. View All Departments");
-            System.out.println("16. Change Employee Department");
-            System.out.println("17. Log out");
+            System.out.println("5. Archive employee");
+            System.out.println("6. Unarchive employee");
+            System.out.println("7. Change salary");
+            System.out.println("8. Show all employees");
+            System.out.println("9. Show all managers");
+            System.out.println("10. Show all archived employees");
+            System.out.println("11. Update profile");
+            System.out.println("12. Generate random employee");
+            System.out.println("13. View department earnings");
+            System.out.println("14. View all employees' earnings");
+            System.out.println("15. Add Department");
+            System.out.println("16. Count Employees in Department");
+            System.out.println("17. View All Departments");
+            System.out.println("18. Change Employee Department");
+            System.out.println("19. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -54,45 +56,51 @@ public class ManagerDashboard implements ManagerDashboardInterface {
                     archiveUser();
                     break;
                 case 6:
-                    changeSalary();
+                    unarchiveUser();
                     break;
                 case 7:
-                    Employee.showAllEmployees();
+                    changeSalary();
                     break;
                 case 8:
-                    Employee.showAllManagers();
+                    Employee.showAllEmployees();
                     break;
                 case 9:
-                    Employee.updateProfile(FILENAME);
+                    Employee.showAllManagers();
                     break;
                 case 10:
-                    generateRandomEmployee();
+                    Employee.showAllArchivedEmployees(FILENAME);
                     break;
                 case 11:
-                    viewDepartmentEarnings();
+                    Employee.updateProfile(FILENAME);
                     break;
                 case 12:
-                    viewAllEmployeesEarnings();
+                    generateRandomEmployee();
                     break;
                 case 13:
-                    addDepartment();
+                    viewDepartmentEarnings();
                     break;
                 case 14:
-                    countEmployeesInDepartment();
+                    viewAllEmployeesEarnings();
                     break;
                 case 15:
-                    viewAllDepartments();
+                    addDepartment();
                     break;
                 case 16:
-                    changeEmployeeDepartment();
+                    countEmployeesInDepartment();
                     break;
                 case 17:
+                    viewAllDepartments();
+                    break;
+                case 18:
+                    changeEmployeeDepartment();
+                    break;
+                case 19:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 17);
+        } while (choice != 19);
     }
 
     @Override
@@ -314,5 +322,13 @@ public class ManagerDashboard implements ManagerDashboardInterface {
         for (String dept : departments) {
             System.out.println(dept);
         }
+    }
+
+    @Override
+    public void unarchiveUser() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the employee ID to unarchive: ");
+        int id = scanner.nextInt();
+        Employee.unarchiveEmployee(id, FILENAME);
     }
 }
