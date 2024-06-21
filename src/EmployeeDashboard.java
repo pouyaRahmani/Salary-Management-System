@@ -25,7 +25,8 @@ public class EmployeeDashboard implements EmployeeDashboardInterface {
             System.out.println("7. Update profile");
             System.out.println("8. View department earnings");
             System.out.println("9. View all employees' earnings");
-            System.out.println("10. Log out");
+            System.out.println("10. Show all archived employees");
+            System.out.println("11. Logout");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -58,6 +59,9 @@ public class EmployeeDashboard implements EmployeeDashboardInterface {
                     viewAllEmployeesEarnings();
                     break;
                 case 10:
+                    Employee.showAllArchivedEmployees(FILENAME);
+                    break;
+                case 11:
                     System.out.println("Logging out...");
                     break;
                 default:
@@ -126,7 +130,7 @@ public class EmployeeDashboard implements EmployeeDashboardInterface {
     @Override
     public void viewDepartmentEarnings() {
         double departmentEarnings = Employee.calculateDepartmentEarnings(FILENAME);
-        if(departmentEarnings == 0) {
+        if (departmentEarnings == 0) {
             System.out.println("No earnings for the department.");
         } else {
             System.out.println("Total department earnings: " + departmentEarnings);

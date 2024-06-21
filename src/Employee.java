@@ -50,13 +50,11 @@ public class Employee implements Serializable {
     public ArrayList<Salary> getPaymentHistory() {
         return salaries;
     }
-    // Getter for birthDate
+
     public Date getBirthDate() {
         return birthDate;
     }
 
-
-    // Method to show payment history
     public static void showPaymentHistory(String filename) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter employee ID: ");
@@ -173,10 +171,11 @@ public class Employee implements Serializable {
         Set<Employee> employees = readEmployeesFromFile("Employees.dat");
         List<Employee> employeeList = new ArrayList<>();
         for (Employee employee : employees) {
-            if (!employee.isManager) {
+            if (!employee.isManager && !employee.isArchived) {
                 employeeList.add(employee);
             }
         }
+        System.out.println("Total number of employees: " + employeeList.size() + "\n");
         System.out.println("Employee list:");
         for (Employee employee : employeeList) {
             System.out.println(employee);
@@ -184,14 +183,40 @@ public class Employee implements Serializable {
         return employeeList;
     }
 
+    public static void showAllArchivedEmployees(String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+        List<Employee> archivedEmployeeList = new ArrayList<>();
+        int archivedEmployeeCount = 0;
+        int archivedManagerCount = 0;
+
+        for (Employee employee : employees) {
+            if (employee.isArchived) {
+                archivedEmployeeList.add(employee);
+                if (employee.isManager) {
+                    archivedManagerCount++;
+                } else {
+                    archivedEmployeeCount++;
+                }
+            }
+        }
+        System.out.println("Total archived employees: " + archivedEmployeeCount);
+        System.out.println("Total archived managers: " + archivedManagerCount);
+
+        System.out.println("\nArchived Employee list:");
+        for (Employee employee : archivedEmployeeList) {
+            System.out.println(employee + "\n");
+        }
+    }
+
     public static List<Employee> showAllManagers() {
         Set<Employee> employees = readEmployeesFromFile("Employees.dat");
         List<Employee> managerList = new ArrayList<>();
         for (Employee employee : employees) {
-            if (employee.isManager) {
+            if (employee.isManager && !employee.isArchived) {
                 managerList.add(employee);
             }
         }
+        System.out.println("Total number of managers: " + managerList.size() + "\n");
         System.out.println("Manager list:");
         for (Employee manager : managerList) {
             System.out.println(manager);
@@ -278,7 +303,6 @@ public class Employee implements Serializable {
         }
     }
 
-    // Method to calculate total earnings of a department
     public static double calculateDepartmentEarnings(String filename) {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter department ID: ");
@@ -297,7 +321,6 @@ public class Employee implements Serializable {
         return totalEarnings;
     }
 
-    // Method to calculate total earnings of all employees
     public static double calculateAllEmployeesEarnings(String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
         double totalEarnings = 0;
@@ -330,7 +353,6 @@ public class Employee implements Serializable {
         }
     }
 
-    // Update profile for employees and managers based on Id and filename
     public static void updateProfile(String filename) {
         Scanner scanner = new Scanner(System.in);
         Set<Employee> employees = readEmployeesFromFile(filename);
