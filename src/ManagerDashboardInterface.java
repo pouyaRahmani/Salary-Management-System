@@ -6,4 +6,5 @@ public interface ManagerDashboardInterface extends EmployeeDashboardInterface {
     void countEmployeesInDepartment();
     void viewAllDepartments();
     void changeEmployeeDepartment();
+    void unarchiveUser();
 }

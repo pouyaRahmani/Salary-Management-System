@@ -33,7 +33,8 @@ public class ManagerDashboard implements ManagerDashboardInterface {
             System.out.println("14. Count Employees in Department");
             System.out.println("15. View All Departments");
             System.out.println("16. Change Employee Department");
-            System.out.println("17. Log out");
+            System.out.println("17. Unarchive employee");
+            System.out.println("18. Log out");
             System.out.print("Enter your choice: ");
             choice = scanner.nextInt();
 
@@ -87,12 +88,15 @@ public class ManagerDashboard implements ManagerDashboardInterface {
                     changeEmployeeDepartment();
                     break;
                 case 17:
+                    unarchiveUser();
+                    break;
+                case 18:
                     System.out.println("Logging out...");
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 17);
+        } while (choice != 18);
     }
 
     @Override
@@ -314,5 +318,13 @@ public class ManagerDashboard implements ManagerDashboardInterface {
         for (String dept : departments) {
             System.out.println(dept);
         }
+    }
+
+    @Override
+    public void unarchiveUser() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the employee ID to unarchive: ");
+        int id = scanner.nextInt();
+        Employee.unarchiveEmployee(id, FILENAME);
     }
 }

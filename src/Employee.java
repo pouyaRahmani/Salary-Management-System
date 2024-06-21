@@ -16,10 +16,12 @@ public class Employee implements Serializable {
     private ArrayList<Salary> salaries;
     private ArrayList<Integer> departmentHistory; // Attribute to store department history
     private double managerBaseSalary;
+    private ArrayList<ArchiveHistory> archiveHistory;
 
     public Employee() {
         this.departmentHistory = new ArrayList<>();
         this.salaries = new ArrayList<>();
+        this.archiveHistory = new ArrayList<>();
     }
 
     public Employee(String firstName, String lastName, String socialSecurityNumber, Date birthDate, String userName,
@@ -36,8 +38,9 @@ public class Employee implements Serializable {
         this.isArchived = isArchived;
         this.status = status;
         this.salaries = new ArrayList<>();
-        this.departmentHistory = new ArrayList<>(); // Initialize the departmentHistory list
+        this.departmentHistory = new ArrayList<>();
         this.managerBaseSalary = managerBaseSalary;
+        this.archiveHistory = new ArrayList<>();
     }
 
     public void addSalary(Salary salary) {
@@ -47,6 +50,11 @@ public class Employee implements Serializable {
     public ArrayList<Salary> getPaymentHistory() {
         return salaries;
     }
+    // Getter for birthDate
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
 
     // Method to show payment history
     public static void showPaymentHistory(String filename) {
@@ -129,6 +137,14 @@ public class Employee implements Serializable {
         departmentHistory.add(departmentId);
     }
 
+    public void addArchiveHistory(Date date, boolean isArchived) {
+        archiveHistory.add(new ArchiveHistory(date, isArchived));
+    }
+
+    public ArrayList<ArchiveHistory> getArchiveHistory() {
+        return archiveHistory;
+    }
+
     public static Employee findById(int id, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
         for (Employee employee : employees) {
@@ -183,14 +199,13 @@ public class Employee implements Serializable {
         return managerList;
     }
 
-    // Archive employee with given id and set status based on user input
     public static void archiveEmployee(int id, String filename) {
         Set<Employee> employees = readEmployeesFromFile(filename);
         Scanner scanner = new Scanner(System.in);
 
         for (Employee employee : employees) {
             if (employee.getId() == id) {
-                employee.toString();
+                System.out.println(employee);
                 employee.isArchived = true;
 
                 System.out.println("Select reason for archiving:");
@@ -218,8 +233,31 @@ public class Employee implements Serializable {
                         employee.status = Activity.ACTIVE;
                 }
 
+                employee.addArchiveHistory(new Date(), true);
                 writeEmployeesToFile(employees, filename);
                 System.out.println("Employee archived with status: " + employee.getStatus());
+                break;
+            }
+        }
+    }
+
+    public static void unarchiveEmployee(int id, String filename) {
+        Set<Employee> employees = readEmployeesFromFile(filename);
+
+        for (Employee employee : employees) {
+            if (employee.getId() == id) {
+                if (!employee.isArchived) {
+                    System.out.println("Employee is not archived.");
+                    return;
+                }
+
+                System.out.println(employee);
+                employee.isArchived = false;
+                employee.status = Activity.ACTIVE;
+
+                employee.addArchiveHistory(new Date(), false);
+                writeEmployeesToFile(employees, filename);
+                System.out.println("Employee unarchived.");
                 break;
             }
         }
@@ -366,7 +404,6 @@ public class Employee implements Serializable {
 
     @Override
     public String toString() {
-
         // Find the active salary for the employee
         Salary activeSalary = null;
         for (Salary salary : salaries) {
@@ -392,6 +429,7 @@ public class Employee implements Serializable {
                 "\t\tSSN='" + socialSecurityNumber + '\'' +
                 (activeSalary != null ? "\nActive Salary=" + activeSalary : "") +
                 "\nDepartment History=" + departmentHistory +
+                "\nArchive History=" + archiveHistory +
                 "}\n";
     }
 }
