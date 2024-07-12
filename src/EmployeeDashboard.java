@@ -67,7 +67,7 @@ public class EmployeeDashboard implements EmployeeDashboardInterface {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
-        } while (choice != 10);
+        } while (choice != 11);
     }
 
     @Override

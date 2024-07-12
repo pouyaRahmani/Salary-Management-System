@@ -14,6 +14,13 @@ public class Organization implements OrganizationInterface {
 
     @Override
     public boolean addDepartment(int id, String name) {
+        // Check for duplicate department ID
+        for (Department department : departments) {
+            if (department.getId() == id) {
+                return false;
+            }
+        }
+
         Department department = new Department(id, name);
         departments.add(department);
         saveDepartments();
@@ -27,11 +34,6 @@ public class Organization implements OrganizationInterface {
             departmentList.add(department.toString());
         }
         return departmentList;
-    }
-
-    @Override
-    public List<Department> getDepartments() {
-        return departments;
     }
 
     @Override
@@ -94,61 +96,6 @@ public class Organization implements OrganizationInterface {
             }
         }
         System.out.println("Employee not found.");
-        return false;
-    }
-
-    // Static methods for backward compatibility
-    public static List<Department> loadDepartmentsFromFile() {
-        List<Department> departments = new ArrayList<>();
-        File file = new File(FILENAME);
-        if (file.exists()) {
-            try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILENAME))) {
-                departments = (List<Department>) ois.readObject();
-            } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        } else {
-            // If file doesn't exist, create default departments
-            for (int i = 1; i <= 20; i++) {
-                departments.add(new Department(i, "Department " + i));
-            }
-            saveDepartmentsToFile(departments);
-        }
-        return departments;
-    }
-
-    private static void saveDepartmentsToFile(List<Department> departments) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILENAME))) {
-            oos.writeObject(departments);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean addDepartmentStatic(int id, String name) {
-        Department department = new Department(id, name);
-        List<Department> departments = loadDepartmentsFromFile();
-        departments.add(department);
-        saveDepartmentsToFile(departments);
-        return true;
-    }
-
-    public static List<String> showAllDepartmentsStatic() {
-        List<Department> departments = loadDepartmentsFromFile();
-        List<String> departmentList = new ArrayList<>();
-        for (Department department : departments) {
-            departmentList.add(department.toString());
-        }
-        return departmentList;
-    }
-
-    public static boolean isValidDepartmentIdStatic(int id) {
-        List<Department> departments = loadDepartmentsFromFile();
-        for (Department department : departments) {
-            if (department.getId() == id) {
-                return true;
-            }
-        }
         return false;
     }
 }

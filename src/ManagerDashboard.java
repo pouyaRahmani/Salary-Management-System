@@ -292,8 +292,11 @@ public class ManagerDashboard implements ManagerDashboardInterface {
         scanner.nextLine();
         System.out.print("Enter department name: ");
         String departmentName = scanner.nextLine();
-        organization.addDepartment(departmentId, departmentName);
-        System.out.println("Department added successfully.");
+
+        if (organization.addDepartment(departmentId, departmentName))
+            System.out.println("Department added successfully.");
+        else
+            System.out.println("Department ID already exists.");
     }
 
     @Override
