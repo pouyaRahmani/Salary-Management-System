@@ -11,7 +11,7 @@ The Salary Management System is an object-oriented Java application designed to 
 - **Reporting:** Generate reports on employee salaries and department statistics.
 
 ## UML image
-
+![UML Graph](/src/uml.jpeg)
 
 ## Technologies Used
 - Java

@@ -10,14 +10,6 @@ public class ArchiveHistory implements Serializable {
         this.isArchived = isArchived;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public boolean isArchived() {
-        return isArchived;
-    }
-
     @Override
     public String toString() {
         return "ArchiveHistory{" +

@@ -14,10 +14,6 @@ public class Department implements Serializable {
         return id;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
-    }
-
     public static int countEmployeesInDepartment(int departmentId) {
         Set<Employee> employees = Employee.readEmployeesFromFile("Employees.dat");
         int count = 0;
