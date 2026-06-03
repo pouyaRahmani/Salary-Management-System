@@ -20,5 +20,6 @@ The Salary Management System is an object-oriented Java application designed to 
 
 ## Installation
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/yourusername/SalaryManagementSystem.git
